@@ -4,6 +4,12 @@ export type AuthMethod = 'Smart-ID' | 'eParaksts'
 
 export type SubmissionStatus = 'Draft' | 'Submitted' | 'In Review' | 'Approved'
 
+export type RateOption = {
+  term: string
+  months: number
+  rate: number
+}
+
 export type Applicant = {
   fullName: string
   personalCode: string
@@ -24,3 +30,19 @@ export type SubmissionResponse = {
   message: string
 }
 
+export type ApplicantField =
+  | 'fullName'
+  | 'personalCode'
+  | 'email'
+  | 'phone'
+  | 'residency'
+  | 'depositType'
+  | 'amount'
+  | 'termMonths'
+  | 'interestRate'
+  | 'payoutAccount'
+  | 'terms'
+
+export type FormErrors = Partial<Record<ApplicantField, string>>
+
+export type ApplicantInputField = Exclude<ApplicantField, 'terms'>

@@ -1,20 +1,29 @@
-import type { Applicant, AuthMethod, SubmissionStatus, View } from './types'
+import { depositConstraints, rateTable } from './config'
+import type {
+  Applicant,
+  ApplicantField,
+  ApplicantInputField,
+  AuthMethod,
+  FormErrors,
+  SubmissionStatus,
+  View,
+} from './types'
 
-export type RateOption = {
-  term: string
-  months: number
-  rate: number
-}
-
-export const rateTable: RateOption[] = [
-  { term: '3 mēneši', months: 3, rate: 1.75 },
-  { term: '6 mēneši', months: 6, rate: 1.75 },
-  { term: '1 gads', months: 12, rate: 1.75 },
-  { term: '2 gadi', months: 24, rate: 2.0 },
-  { term: '3 gadi', months: 36, rate: 2.5 },
-  { term: '4 gadi', months: 48, rate: 2.6 },
-  { term: '5 gadi', months: 60, rate: 2.75 },
+const applicantInputFieldOrder: ApplicantInputField[] = [
+  'fullName',
+  'personalCode',
+  'email',
+  'phone',
+  'residency',
+  'depositType',
+  'amount',
+  'termMonths',
+  'interestRate',
+  'payoutAccount',
 ]
+
+const defaultTermMonths = 12
+const defaultRate = rateTable.find((item) => item.months === defaultTermMonths)?.rate ?? 1.75
 
 export const defaultApplicant: Applicant = {
   fullName: '',
@@ -23,9 +32,9 @@ export const defaultApplicant: Applicant = {
   phone: '',
   residency: 'Latvija',
   depositType: 'Depozīts ar procentu izmaksu termiņa beigās',
-  amount: 3000,
-  termMonths: 12,
-  interestRate: 1.75,
+  amount: Math.max(depositConstraints.min, 3000),
+  termMonths: defaultTermMonths,
+  interestRate: Number(defaultRate.toFixed(2)),
   payoutAccount: '',
   status: 'Draft',
 }
@@ -41,6 +50,10 @@ export type AppState = {
   loading: boolean
   lastMessage?: string
   pendingView?: View
+  formErrors: FormErrors
+  touchedFields: Partial<Record<ApplicantField, boolean>>
+  termsAccepted: boolean
+  submissionAttempted: boolean
 }
 
 export const appState: AppState = {
@@ -49,12 +62,20 @@ export const appState: AppState = {
   isAuthenticated: false,
   showAuthModal: false,
   loading: false,
+  formErrors: {},
+  touchedFields: {},
+  termsAccepted: false,
+  submissionAttempted: false,
 }
 
 export function resetApplicant() {
   appState.applicant = structuredClone(defaultApplicant)
   delete appState.submittedAt
   delete appState.submissionId
+  appState.formErrors = {}
+  appState.touchedFields = {}
+  appState.termsAccepted = false
+  appState.submissionAttempted = false
 }
 
 export function setApplicantStatus(status: SubmissionStatus) {
@@ -75,4 +96,55 @@ export function clearAuthSession() {
 
 export function requiresAuthentication(view: View) {
   return view === 'apply' || view === 'dashboard'
+}
+
+export function setFormErrors(errors: FormErrors) {
+  appState.formErrors = errors
+}
+
+export function setFieldError(field: ApplicantField, message?: string) {
+  if (!message) {
+    const { [field]: _removed, ...rest } = appState.formErrors
+    appState.formErrors = rest
+    return
+  }
+  appState.formErrors = {
+    ...appState.formErrors,
+    [field]: message,
+  }
+}
+
+export function markFieldTouched(field: ApplicantField) {
+  appState.touchedFields = {
+    ...appState.touchedFields,
+    [field]: true,
+  }
+}
+
+export function markAllFieldsTouched() {
+  const touched: Partial<Record<ApplicantField, boolean>> = {}
+  applicantInputFieldOrder.forEach((field) => {
+    touched[field] = true
+  })
+  touched.terms = true
+  appState.touchedFields = touched
+}
+
+export function setSubmissionAttempted(attempted: boolean) {
+  appState.submissionAttempted = attempted
+}
+
+export function setApplicant(updates: Partial<Applicant>) {
+  appState.applicant = {
+    ...appState.applicant,
+    ...updates,
+  }
+}
+
+export function setTermsAccepted(accepted: boolean) {
+  appState.termsAccepted = accepted
+}
+
+export function getApplicantInputFields(): ApplicantInputField[] {
+  return [...applicantInputFieldOrder]
 }

@@ -19,24 +19,24 @@ export async function submitApplication(_applicant: Applicant) {
       const response: SubmissionResponse = {
         id: `APP-${Date.now().toString().slice(-6)}`,
         status: 'Submitted',
-        message: 'Pieteikums nodots CRM manuālai/automatizētai apstrādei.',
+        message: 'Pieteikums nodots Creatio CRM apstrādei un AML pārbaudēm.',
       }
       resolve(response)
     }, 1400)
   })
 }
 
-export async function refreshApplicationStatus(_submissionId: string) {
+export async function refreshApplicationStatus(submissionId: string) {
   return new Promise<SubmissionResponse>((resolve) => {
     setTimeout(() => {
       const status = simulatedStatuses[Math.floor(Math.random() * simulatedStatuses.length)]
       resolve({
-        id: _submissionId,
+        id: submissionId,
         status,
         message:
           status === 'Approved'
-            ? 'Depozīta konts izveidots WALL sistēmā. Seko līdzi finansējuma instrukcijām.'
-            : 'Pieteikums atrodas apstrādes posmā (AML / CRM).',
+            ? 'Depozīta konts izveidots WALL sistēmā. Pārbaudiet finansēšanas instrukcijas.'
+            : 'Pieteikums atrodas AML un CRM apstrādes posmā.',
       })
     }, 900)
   })
