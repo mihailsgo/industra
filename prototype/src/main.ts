@@ -113,7 +113,10 @@ function renderHeader() {
   const authHtml = appState.isAuthenticated
     ? `
       <div class="auth-chip">
-        <span>${appState.authMethod ?? 'Autentificēts'}</span>
+        <div class="auth-meta">
+          <strong>${appState.userName ?? 'Autentificēts'}</strong>
+          ${appState.authMethod ? `<small>${appState.authMethod}</small>` : ''}
+        </div>
         ${Button({ label: 'Izrakstīties', attributes: { 'data-action': 'sign-out' } })}
       </div>
     `

@@ -44,6 +44,7 @@ export type AppState = {
   applicant: Applicant
   isAuthenticated: boolean
   authMethod?: AuthMethod
+  userName?: string
   showAuthModal: boolean
   submittedAt?: Date
   submissionId?: string
@@ -85,6 +86,7 @@ export function setApplicantStatus(status: SubmissionStatus) {
 export function setAuthSession(method: AuthMethod) {
   appState.isAuthenticated = true
   appState.authMethod = method
+  appState.userName = 'Jānis Bērziņš'
   appState.showAuthModal = false
   delete appState.pendingView
 }
@@ -92,6 +94,7 @@ export function setAuthSession(method: AuthMethod) {
 export function clearAuthSession() {
   appState.isAuthenticated = false
   delete appState.authMethod
+  delete appState.userName
 }
 
 export function requiresAuthentication(view: View) {
