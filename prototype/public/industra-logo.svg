@@ -1,16 +1,13 @@
-<svg width="192" height="48" viewBox="0 0 192 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="industra-gradient" x1="6" y1="4" x2="40" y2="44" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#1F3DD9"/>
-      <stop offset="1" stop-color="#38BDF8"/>
-    </linearGradient>
-  </defs>
-  <rect width="48" height="48" rx="12" fill="url(#industra-gradient)"/>
-  <path d="M20 12H28C30.2091 12 32 13.7909 32 16V32C32 34.2091 30.2091 36 28 36H20C17.7909 36 16 34.2091 16 32V16C16 13.7909 17.7909 12 20 12Z" stroke="white" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="M24 16.5V31.5" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M20 22H28" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-  <g fill="#0F172A" font-family="Inter, 'Segoe UI', sans-serif" font-weight="700">
-    <text font-size="22" letter-spacing="0.14em" x="60" y="30">INDUSTRA</text>
+<svg width="200" height="140" viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="140" fill="none"/>
+  <g transform="translate(0 5)">
+    <path d="M50 15L100 44V102L50 131L0 102V44L50 15Z" fill="#C9D8E6"/>
+    <path d="M50 15L100 44V102L50 131V15Z" fill="#7BAFD4"/>
+    <path d="M50 15L0 44V102L50 131V15Z" fill="#A0C5DF"/>
+    <path d="M34 45L46 38V74L34 81V45Z" fill="#F5FAFD"/>
+    <path d="M54 38L66 45V68L54 75V38Z" fill="#F5FAFD"/>
+    <path d="M78 52L90 59V82L78 89V52Z" fill="#F5FAFD"/>
   </g>
-  <text x="60" y="42" fill="#2563EB" font-family="Inter, 'Segoe UI', sans-serif" font-size="11" font-weight="600" letter-spacing="0.22em">BANK</text>
+  <text x="100" y="112" text-anchor="middle" font-family="Inter, 'Segoe UI', sans-serif" font-size="24" letter-spacing="0.6em" fill="#1F2024">INDUSTRA</text>
+  <text x="100" y="134" text-anchor="middle" font-family="Inter, 'Segoe UI', sans-serif" font-size="14" letter-spacing="0.8em" fill="#5B5F66">BANK</text>
 </svg>
