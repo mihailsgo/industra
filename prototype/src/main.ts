@@ -532,7 +532,13 @@ function renderAuthModal() {
           <button class="auth-option" data-method="eParaksts" ${appState.loading ? 'disabled' : ''}>eParaksts</button>
         </div>
         <div class="modal-actions">
-          <button class="outline" id="auth-close" ${appState.loading ? 'disabled' : ''}>Atcelt</button>
+          ${Button({
+            label: 'Atcelt',
+            attributes: {
+              id: 'auth-close',
+              ...(appState.loading ? { disabled: 'true' } : {}),
+            },
+          })}
         </div>
         ${appState.loading ? '<p class="modal-note">Notiek identifikācijas simulācija...</p>' : ''}
       </div>
@@ -701,6 +707,14 @@ async function handleStatusRefresh() {
 }
 
 function render() {
+  const activeElement = document.activeElement as HTMLElement | null
+  const activeElementId = activeElement?.id
+  const previousScrollY = window.scrollY
+  const isTextInput =
+    activeElement instanceof HTMLInputElement || activeElement instanceof HTMLTextAreaElement
+  const selectionStart = isTextInput ? activeElement.selectionStart : null
+  const selectionEnd = isTextInput ? activeElement.selectionEnd : null
+
   const viewRenderers: Record<View, () => string> = {
     landing: renderLanding,
     apply: renderApplicationForm,
@@ -771,6 +785,38 @@ function render() {
       notify('Sesija slēgta.')
       changeView('landing')
     })
+  }
+
+  if (activeElementId) {
+    const nextActive = document.getElementById(activeElementId)
+    if (nextActive instanceof HTMLInputElement || nextActive instanceof HTMLTextAreaElement) {
+      try {
+        nextActive.focus({ preventScroll: true })
+      } catch {
+        nextActive.focus()
+      }
+      if (
+        selectionStart !== null &&
+        selectionEnd !== null &&
+        typeof nextActive.setSelectionRange === 'function'
+      ) {
+        try {
+          nextActive.setSelectionRange(selectionStart, selectionEnd)
+        } catch {
+          // ignore selection errors for unsupported input types
+        }
+      }
+    } else if (nextActive) {
+      try {
+        nextActive.focus({ preventScroll: true })
+      } catch {
+        nextActive.focus()
+      }
+    }
+  }
+
+  if (window.scrollY !== previousScrollY) {
+    window.scrollTo({ top: previousScrollY })
   }
 }
 
