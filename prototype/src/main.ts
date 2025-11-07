@@ -510,6 +510,9 @@ function renderFooter() {
       <div>
         <strong>Drošība:</strong> Visas darbības auditētas un glabātas Industra Bank sistēmās.
       </div>
+      <div class="powered">
+        Powered by <a href="https://trustlynx.com" target="_blank" rel="noreferrer">TrustLynx</a>
+      </div>
     </footer>
   `
 }

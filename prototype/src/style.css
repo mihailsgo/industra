@@ -592,6 +592,21 @@ input[readonly] {
   }
 }
 
+.powered {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.powered a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.powered a:hover {
+  text-decoration: underline;
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
